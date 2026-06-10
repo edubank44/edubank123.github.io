@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>구청 민원업무 대시보드 데모</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Malgun Gothic','Apple SD Gothic Neo',Arial,sans-serif;background:#f3f6fb;color:#111827}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px}
+    .hero{background:linear-gradient(135deg,#0a2d4a 0%,#114c74 100%);color:#fff;border-radius:24px;padding:28px 32px;box-shadow:0 12px 30px rgba(17,76,116,.18)}
+    .hero h1{margin:8px 0 10px;font-size:32px;line-height:1.25}
+    .hero p{margin:0;font-size:15px;line-height:1.7;color:#e6f0f8}
+    .badge{display:inline-block;background:#eaf4ff;color:#0a5a92;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700}
+    .grid{display:grid;gap:16px}
+    .kpis{grid-template-columns:repeat(6,1fr);margin-top:22px}
+    .card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 8px 20px rgba(15,23,42,.06);border:1px solid #e6edf5}
+    .card h3{margin:0 0 6px;font-size:14px;color:#4b5563}
+    .big{font-size:34px;font-weight:800;color:#0f172a}
+    .two-col{grid-template-columns:2fr 1fr;margin-top:18px}
+    .three-col{grid-template-columns:1fr 1fr 1fr;margin-top:18px}
+    .section-title{margin:0 0 14px;font-size:18px;color:#0f172a}
+    .bar-row{display:grid;grid-template-columns:110px 1fr 48px;align-items:center;gap:12px;margin:12px 0}
+    .bar{height:12px;background:#e7eef6;border-radius:999px;overflow:hidden}
+    .bar > span{display:block;height:100%;background:#1d6ea4;border-radius:999px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px 10px;border-bottom:1px solid #e7edf4;text-align:left;font-size:13px}
+    th{background:#f8fbff;color:#334155}
+    .status{display:inline-block;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700}
+    .s1{background:#eef6ff;color:#145ea8}
+    .s2{background:#fff3da;color:#9a6200}
+    .s3{background:#eefbf1;color:#11753d}
+    .s4{background:#ffebeb;color:#b42318}
+    .warn-item{padding:14px;border:1px solid #ffd2d2;background:#fff5f5;border-radius:16px;margin-bottom:12px}
+    .warn-item strong{display:block;font-size:14px;margin-bottom:6px}
+    .mini{font-size:12px;color:#475569;line-height:1.6}
+    .tabs{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+    .tab-btn{border:1px solid #d8e4f0;background:#fff;border-radius:999px;padding:10px 16px;font-weight:700;color:#134266;cursor:pointer}
+    .tab-btn.active{background:#114c74;color:#fff;border-color:#114c74}
+    .role-panel{display:none}
+    .role-panel.active{display:block}
+    .role-list{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+    .role-box{background:#f8fbff;border:1px solid #e1edf9;border-radius:16px;padding:18px}
+    .role-box h4{margin:0 0 8px;font-size:15px}
+    .role-box ul{margin:0;padding-left:18px}
+    .role-box li{margin:6px 0;font-size:13px;line-height:1.6}
+    .footer-note{margin-top:22px;font-size:12px;color:#64748b}
+    @media (max-width: 960px){
+      .kpis,.two-col,.three-col,.role-list{grid-template-columns:1fr}
+      .hero h1{font-size:26px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <span class="badge">구청 민원업무 웹앱 데모</span>
+      <h1>민원 접수·처리·지연관리 통합 대시보드</h1>
+      <p>민원 현황 파악, 지연 민원 모니터링, 담당자 업무량 확인, 실무자·팀장·관리자 관점별 정보 구성을 한 화면에 정리한 테스트용 데모입니다.</p>
+    </div>
+
+    <div class="grid kpis">
+      <div class="card"><h3>오늘 접수</h3><div class="big">43</div></div>
+      <div class="card"><h3>처리 중</h3><div class="big">26</div></div>
+      <div class="card"><h3>오늘 완료</h3><div class="big">19</div></div>
+      <div class="card"><h3>지연</h3><div class="big">4</div></div>
+      <div class="card"><h3>긴급</h3><div class="big">3</div></div>
+      <div class="card"><h3>재접수</h3><div class="big">5</div></div>
+    </div>
+
+    <div class="grid two-col">
+      <div class="card">
+        <h2 class="section-title">시간대별 접수/처리 현황</h2>
+        <div class="bar-row"><div>09시</div><div class="bar"><span style="width:80%"></span></div><div>8</div></div>
+        <div class="bar-row"><div>10시</div><div class="bar"><span style="width:100%"></span></div><div>10</div></div>
+        <div class="bar-row"><div>11시</div><div class="bar"><span style="width:70%"></span></div><div>7</div></div>
+        <div class="bar-row"><div>12시</div><div class="bar"><span style="width:30%"></span></div><div>3</div></div>
+        <div class="bar-row"><div>13시</div><div class="bar"><span style="width:50%"></span></div><div>5</div></div>
+        <div class="bar-row"><div>14시</div><div class="bar"><span style="width:60%"></span></div><div>6</div></div>
+        <div class="bar-row"><div>15시</div><div class="bar"><span style="width:40%"></span></div><div>4</div></div>
+        <div class="bar-row"><div>16시</div><div class="bar"><span style="width:30%"></span></div><div>3</div></div>
+        <div class="footer-note">데모 버전에서는 시각화를 단순 막대형으로 제공했습니다.</div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">민원 유형별 비중</h2>
+        <div class="bar-row"><div>교통/주차</div><div class="bar"><span style="width:90%"></span></div><div>18</div></div>
+        <div class="bar-row"><div>복지</div><div class="bar"><span style="width:70%"></span></div><div>14</div></div>
+        <div class="bar-row"><div>제증명</div><div class="bar"><span style="width:55%"></span></div><div>11</div></div>
+        <div class="bar-row"><div>환경/청소</div><div class="bar"><span style="width:45%"></span></div><div>9</div></div>
+        <div class="bar-row"><div>건축/주택</div><div class="bar"><span style="width:40%"></span></div><div>8</div></div>
+        <div class="bar-row"><div>기타</div><div class="bar"><span style="width:35%"></span></div><div>7</div></div>
+      </div>
+    </div>
+
+    <div class="grid two-col">
+      <div class="card">
+        <h2 class="section-title">민원 처리 목록</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>민원번호</th><th>제목</th><th>유형</th><th>부서</th><th>담당자</th><th>상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>M-2026-001</td><td>주차단속 문의</td><td>교통/주차</td><td>교통행정과</td><td>김민수</td><td><span class="status s2">처리중</span></td></tr>
+            <tr><td>M-2026-003</td><td>복지지원 안내 요청</td><td>복지</td><td>복지정책과</td><td>이정훈</td><td><span class="status s1">회신준비</span></td></tr>
+            <tr><td>M-2026-004</td><td>불법주정차 반복 민원</td><td>교통/주차</td><td>교통행정과</td><td>김민수</td><td><span class="status s4">지연</span></td></tr>
+            <tr><td>M-2026-006</td><td>공원 시설 보수 요청</td><td>시설</td><td>공원녹지과</td><td>장유진</td><td><span class="status s1">검토중</span></td></tr>
+            <tr><td>M-2026-010</td><td>세무 납부 확인 요청</td><td>세무</td><td>세무과</td><td>임지수</td><td><span class="status s3">완료</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2 class="section-title">지연 · 주의 민원</h2>
+        <div class="warn-item">
+          <strong>불법주정차 반복 민원</strong>
+          <div class="mini">교통행정과 · 김민수 · 기한초과 2일 · 반복 민원</div>
+        </div>
+        <div class="warn-item">
+          <strong>아동돌봄 지원 민원</strong>
+          <div class="mini">아동청소년과 · 강유리 · 기한초과 1일</div>
+        </div>
+        <div class="warn-item">
+          <strong>복지지원 안내 요청</strong>
+          <div class="mini">복지정책과 · 이정훈 · 회신 준비 · 재접수 이력</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid three-col">
+      <div class="card">
+        <h2 class="section-title">처리 단계별 진행 현황</h2>
+        <div class="bar-row"><div>접수완료</div><div class="bar"><span style="width:50%"></span></div><div>12</div></div>
+        <div class="bar-row"><div>배정</div><div class="bar"><span style="width:35%"></span></div><div>8</div></div>
+        <div class="bar-row"><div>검토중</div><div class="bar"><span style="width:42%"></span></div><div>10</div></div>
+        <div class="bar-row"><div>처리중</div><div class="bar"><span style="width:62%"></span></div><div>15</div></div>
+        <div class="bar-row"><div>회신준비</div><div class="bar"><span style="width:25%"></span></div><div>6</div></div>
+        <div class="bar-row"><div>완료</div><div class="bar"><span style="width:100%"></span></div><div>24</div></div>
+      </div>
+      <div class="card" style="grid-column: span 2;">
+        <h2 class="section-title">담당자별 처리 현황</h2>
+        <table>
+          <thead>
+            <tr><th>담당자</th><th>처리중</th><th>완료</th><th>메모</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>김민수</td><td>8</td><td>13</td><td>교통/주차 민원 집중</td></tr>
+            <tr><td>박서연</td><td>5</td><td>10</td><td>환경/청소 안정 처리</td></tr>
+            <tr><td>이정훈</td><td>6</td><td>11</td><td>복지 문의 증가</td></tr>
+            <tr><td>정하늘</td><td>3</td><td>14</td><td>제증명 처리 효율 높음</td></tr>
+            <tr><td>장유진</td><td>4</td><td>8</td><td>시설 민원 증가 대응</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h2 class="section-title">권한별 화면 포인트</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-target="staff">실무자</button>
+        <button class="tab-btn" data-target="leader">팀장</button>
+        <button class="tab-btn" data-target="admin">관리자</button>
+      </div>
+      <div id="staff" class="role-panel active">
+        <div class="role-list">
+          <div class="role-box"><h4>내 미처리 민원</h4><ul><li>오늘 마감 우선 표시</li><li>회신 작성 대기 목록</li><li>긴급 민원 상단 고정</li></ul></div>
+          <div class="role-box"><h4>즉시 대응 필요</h4><ul><li>지연 위험 민원 자동 강조</li><li>반복 민원 태그 표시</li><li>상세 처리 이력 즉시 확인</li></ul></div>
+          <div class="role-box"><h4>빠른 필터</h4><ul><li>내 민원만 보기</li><li>긴급 건만 보기</li><li>유형·상태 재정렬</li></ul></div>
+        </div>
+      </div>
+      <div id="leader" class="role-panel">
+        <div class="role-list">
+          <div class="role-box"><h4>팀 업무량 조정</h4><ul><li>담당자별 건수 비교</li><li>지연 건 담당자 현황</li><li>업무 편중 여부 확인</li></ul></div>
+          <div class="role-box"><h4>병목 관리</h4><ul><li>검토중 장기 체류 확인</li><li>회신준비 지연 관리</li><li>반복 민원 유형 TOP 파악</li></ul></div>
+          <div class="role-box"><h4>운영회의 지원</h4><ul><li>오늘 접수/완료 요약</li><li>이슈 민원 브리핑</li><li>팀 KPI 확인</li></ul></div>
+        </div>
+      </div>
+      <div id="admin" class="role-panel">
+        <div class="role-list">
+          <div class="role-box"><h4>부서별 운영 현황</h4><ul><li>부서별 접수량 비교</li><li>완료율/평균 처리시간 점검</li><li>월간 처리 성과 확인</li></ul></div>
+          <div class="role-box"><h4>추이 분석</h4><ul><li>월별 민원 추이</li><li>재민원 비율</li><li>채널별 유입 비중</li></ul></div>
+          <div class="role-box"><h4>운영 의사결정 지원</h4><ul><li>인력 배치 판단</li><li>반복 민원 개선 과제</li><li>행정 서비스 품질 점검</li></ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">이 파일은 테스트용 단독 HTML 데모입니다. 메일 안에서는 웹앱이 직접 실행되지 않으므로, 홍보메일에서는 이 데모 파일이나 외부 테스트 URL로 연결하는 방식이 적합합니다.</div>
+  </div>
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.role-panel');
+    buttons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        buttons.forEach(b=>b.classList.remove('active'));
+        panels.forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
